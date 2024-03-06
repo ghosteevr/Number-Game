@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guess the Number Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <h1>Guess the Number Game</h1>
+  <p>Guess a number between 1 and 100</p>
+  <input type="text" id="guessField">
+  <button onclick="checkGuess()">Submit Guess</button>
+  <p id="guessResult"></p>
+
+  <script>
+    // Generate random number between 1 and 100
+    const randomNumber = Math.floor(Math.random() * 100) + 1;
+
+    let guessCount = 0;
+    const maxGuesses = 10;
+
+    function checkGuess() {
+      const userGuess = parseInt(document.getElementById('guessField').value);
+      const guessResult = document.getElementById('guessResult');
+
+      if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
+        guessResult.textContent = 'Please enter a valid number between 1 and 100.';
+        return;
+      }
+
+      guessCount++;
+
+      if (userGuess === randomNumber) {
+        guessResult.textContent = `Congratulations! You guessed the number ${randomNumber} in ${guessCount} guesses!`;
+        disableInput();
+      } else if (guessCount === maxGuesses) {
+        guessResult.textContent = `Sorry, you've reached the maximum number of guesses. The number was ${randomNumber}.`;
+        disableInput();
+      } else if (userGuess < randomNumber) {
+        guessResult.textContent = 'Too low! Try again.';
+      } else if (userGuess > randomNumber) {
+        guessResult.textContent = 'Too high! Try again.';
+      }
+
+      document.getElementById('guessField').value = '';
+    }
+
+    function disableInput() {
+      document.getElementById('guessField').disabled = true;
+      document.querySelector('button').disabled = true;
+    }
+  </script>
+</body>
+</html>
